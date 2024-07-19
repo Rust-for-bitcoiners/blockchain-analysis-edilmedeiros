@@ -41,6 +41,12 @@ pub enum Command {
     #[command(name = "stop")]
     Stop,
 
+    /// Estimate the time it took to mine block at height n
+    #[command(name = "timetomine")]
+    TimeToMine {
+        height: u64,
+    }
+
 }
 
 /// Returns the arguments from the clap parser as an Args struct defined above

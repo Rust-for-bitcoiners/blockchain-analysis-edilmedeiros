@@ -27,3 +27,22 @@ pub fn stop(rpc: &Client) -> Result<(), Error> {
     println!("{result}");
     Ok(())
 }
+
+pub fn time_to_mine(rpc: &Client, height: u64) -> Result<String, Error> {
+    // We don't know how long it toook to mine the genesis block
+    if height == 0 {
+        return Ok("Better ask Satoshi 😉".to_owned());
+    }
+
+    let block_hash = rpc.get_block_hash(height)?;
+    let block_data = rpc.get_block(&block_hash)?;
+    let block_time = block_data.header.time;
+
+    let prev_block_hash = rpc.get_block_hash(height - 1)?;
+    let prev_block_data = rpc.get_block(&prev_block_hash)?;
+    let prev_block_time = prev_block_data.header.time;
+
+    let time_to_mine = block_time - prev_block_time;
+
+    Ok(time_to_mine.to_string())
+}

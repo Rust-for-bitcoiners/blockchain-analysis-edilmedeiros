@@ -48,6 +48,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Command::Stop => {
             stop(&rpc)?;
         },
+        Command::TimeToMine { height } => {
+            let result = time_to_mine(&rpc, height)?;
+            println!("{result}");
+        }
     }
 
     Ok(())

@@ -41,8 +41,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     match opts.command {
         Command::Uptime => {
             get_uptime(&rpc)?;
-        }
-        _ => {todo!();},
+        },
+        Command::GetBestBlockHash => {
+            get_best_block_hash(&rpc)?;
+        },
     }
 
     Ok(())

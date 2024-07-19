@@ -28,6 +28,11 @@ pub struct Opts {
 /// Specify the methods this CLI tool will understand
 #[derive(Debug, Subcommand)]
 pub enum Command {
+    /// Returns the hash of the best (tip) in the most-work fully-validated
+    /// chain.
+    #[command(name = "getbestblockhash")]
+    GetBestBlockHash,
+
     /// Returns the total uptime of the server.
     #[command(name = "uptime")]
     Uptime,

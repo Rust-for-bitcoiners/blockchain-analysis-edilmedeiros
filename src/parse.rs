@@ -1,24 +1,32 @@
 use clap::{Parser, Subcommand};
 use std::env;
 
-/// Specify the command line interface options
+/// Blockchain Explorer
 #[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
+#[command(version, about, long_about = "Blockchain Explorer", verbatim_doc_comment)]
 pub struct Opts {
-    // Bitcoin core node URL to JSON-RPC
-    #[arg(long, value_name = "url")]//, default_value = "127.0.0.1")]
+    /// Connect to JSON-RPC on <url>.
+    /// Alternatively, set the BITCOIN_RPC_URL environment variable.
+    /// Default: 127.0.0.1.
+    #[arg(long, value_name = "url", verbatim_doc_comment)]
     pub rpc_url: Option<String>,
 
-    /// Connect to JSON-RPC on <port>
-    #[arg(long, value_name = "port")]//, default_value = "8332")]
+    /// Connect to JSON-RPC on <port>.
+    /// Alternatively, set the BITCOIN_RPC_PORT environment variable.
+    /// Default: 8332.
+    #[arg(long, value_name = "port", verbatim_doc_comment)]
     pub rpc_port: Option<String>,
 
-    /// Username for JSON_RPC connections
-    #[arg(long, value_name = "username")]
+    /// Username for JSON_RPC connections.
+    /// Alternatively, set the BITCOIN_RPC_USER environment variable.
+    /// Default: "" (probably not what you want).
+    #[arg(long, value_name = "username", verbatim_doc_comment)]
     pub rpc_user: Option<String>,
 
-    /// Password for JSON-RPC connections
-    #[arg(long, value_name = "password")]
+    /// Password for JSON-RPC connections.
+    /// Alternatively, set the BITCOIN_RPC_PASSWORD environment variable.
+    /// Default: "" (probably not what you want).
+    #[arg(long, value_name = "password", verbatim_doc_comment)]
     pub rpc_password: Option<String>,
 
     #[command(subcommand)]
@@ -37,17 +45,17 @@ pub enum Command {
     #[command(name = "uptime")]
     Uptime,
 
-    /// Stops the node
+    /// Stops the node.
     #[command(name = "stop")]
     Stop,
 
-    /// Estimate the time it took to mine block at height n
+    /// Estimate the time it took to mine block <HEIGHT>.
     #[command(name = "timetomine")]
     TimeToMine {
         height: u64,
     },
 
-    /// Get the number of transactions in block
+    /// Get the number of transactions in block <HEIGHT>.
     #[command(name = "numberoftransactions")]
     NumberOfTransactions {
         height: u64,

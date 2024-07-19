@@ -22,4 +22,8 @@ pub fn get_uptime(rpc: &Client) -> Result<String, Error> {
     Ok(formatted_uptime)
 }
 
+pub fn stop(rpc: &Client) -> Result<(), Error> {
+    let result = rpc.stop()?;
+    println!("{result}");
+    Ok(())
 }

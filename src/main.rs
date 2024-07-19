@@ -45,6 +45,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Command::GetBestBlockHash => {
             get_best_block_hash(&rpc)?;
         },
+        Command::Stop => {
+            stop(&rpc)?;
+        },
     }
 
     Ok(())

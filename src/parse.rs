@@ -36,6 +36,11 @@ pub enum Command {
     /// Returns the total uptime of the server.
     #[command(name = "uptime")]
     Uptime,
+
+    /// Stops the node
+    #[command(name = "stop")]
+    Stop,
+
 }
 
 /// Returns the arguments from the clap parser as an Args struct defined above

@@ -1,4 +1,5 @@
 use bitcoincore_rpc::{bitcoin::BlockHash, Client, Error, RpcApi};
+use bitcoincore_rpc::bitcoincore_rpc_json;
 
 pub fn get_best_block_hash(rpc: &Client) -> Result<BlockHash, Error> {
     let best_block_hash = rpc.get_best_block_hash()?;
@@ -61,4 +62,10 @@ pub fn time_to_mine(rpc: &Client, height: u64) -> Result<String, Error> {
     let time_to_mine = block_time - prev_block_time;
 
     Ok(format_time(time_to_mine.into()))
+}
+
+pub fn number_of_transactions(rpc: &Client, height: u64) -> Result<String, Error> {
+    let block_data = rpc.get_block_stats_fields(height, &[bitcoincore_rpc_json::BlockStatsFields::Txs])?;
+    let number_of_transactions = block_data.txs.unwrap();
+    Ok(number_of_transactions.to_string())
 }

@@ -45,6 +45,12 @@ pub enum Command {
     #[command(name = "timetomine")]
     TimeToMine {
         height: u64,
+    },
+
+    /// Get the number of transactions in block
+    #[command(name = "numberoftransactions")]
+    NumberOfTransactions {
+        height: u64,
     }
 
 }

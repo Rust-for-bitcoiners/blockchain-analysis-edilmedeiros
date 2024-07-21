@@ -7,7 +7,6 @@ use parse::{Command, get_args};
 use commands::*;
 
 // TODO: build utxo set
-// TODO: compute transaction fee
 
 // TODO: implement proper error handling
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -41,7 +40,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             let result = number_of_transactions(&rpc, height)?;
             println!("{result}");
         },
-
+        Command::GetTransactionFee { txid } => {
+            let result = get_transaction_fee(&rpc, txid)?;
+            println!("{result}");
+        }
     }
 
     Ok(())

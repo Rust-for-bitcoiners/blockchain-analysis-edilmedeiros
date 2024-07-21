@@ -59,6 +59,12 @@ pub enum Command {
     #[command(name = "numberoftransactions")]
     NumberOfTransactions {
         height: u64,
+    },
+
+    /// Calculate fee paid on transaction <TXID>.
+    #[command(name = "gettransactionfee")]
+    GetTransactionFee {
+        txid: String,
     }
 
 }

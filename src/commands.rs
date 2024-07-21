@@ -1,4 +1,7 @@
-use bitcoincore_rpc::{bitcoin::BlockHash, Client, Error, RpcApi};
+use std::str::FromStr;
+
+use bitcoincore_rpc::{Client, Error, RpcApi};
+use bitcoincore_rpc::bitcoin::{BlockHash, blockdata::transaction::Txid};
 use bitcoincore_rpc::bitcoincore_rpc_json;
 
 pub fn get_best_block_hash(rpc: &Client) -> Result<BlockHash, Error> {
@@ -68,4 +71,26 @@ pub fn number_of_transactions(rpc: &Client, height: u64) -> Result<String, Error
     let block_data = rpc.get_block_stats_fields(height, &[bitcoincore_rpc_json::BlockStatsFields::Txs])?;
     let number_of_transactions = block_data.txs.unwrap();
     Ok(number_of_transactions.to_string())
+}
+
+pub fn get_transaction_fee(rpc: &Client, txid: String) -> Result<String, Error> {
+    let txid = Txid::from_str(&txid).unwrap(); // TODO: error handling
+    let transaction_data = rpc.get_raw_transaction(&txid, None)?;
+
+    // Get output total
+    let mut output_amount: u64 = 0;
+    for txout in &transaction_data.output {
+        output_amount += txout.value.to_sat();
+    }
+
+    // Get input total
+    let mut input_amount: u64 = 0;
+    for txin in &transaction_data.input {
+        let previous_transaction = rpc.get_raw_transaction(&txin.previous_output.txid, None)?;
+        input_amount += previous_transaction.output[txin.previous_output.vout as usize].value.to_sat();
+    }
+
+    let fee = input_amount - output_amount;
+
+    Ok(fee.to_string())
 }
